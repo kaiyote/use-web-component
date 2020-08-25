@@ -1,0 +1,32 @@
+{
+  "extends": [
+    "eslint-config-standard-with-typescript",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react"
+  ],
+  "ignorePatterns": "dist",
+  "root": true,
+  "env": {
+    "jest": true,
+    "node": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "comma",
+          "requireLast": false
+        },
+        "singleline": {
+          "delimiter": "comma",
+          "requireLast": false
+        }
+      }
+    ]
+  }
+}
