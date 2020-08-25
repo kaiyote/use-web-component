@@ -1,6 +1,7 @@
 {
   "extends": [
     "eslint-config-standard-with-typescript",
+    "plugin:react/recommended",
     "plugin:jest-dom/recommended",
     "plugin:testing-library/react"
   ],
