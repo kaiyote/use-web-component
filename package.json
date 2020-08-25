@@ -31,7 +31,6 @@
     "@types/jest": "^26.0.10",
     "@types/react": "^16.9.47",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
-    "@webcomponents/webcomponentsjs": "^2.4.4",
     "eslint": "^7.7.0",
     "eslint-config-standard-with-typescript": "^18.0.2",
     "eslint-plugin-import": "^2.22.0",

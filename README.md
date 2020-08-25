@@ -29,6 +29,7 @@ import { useWebComponent } from 'use-web-component'
 
 function App () {
   const [simpleProps, ref] = useWebComponent({ all: 'the', props: () => 'for', the: 'web-component' })
+  // simpleProps === { all: 'the', the: 'web-component' }
 
   return <my-component {...simpleProps} ref={ref}></my-component>
 
@@ -66,7 +67,7 @@ This hook was designed to hide all of that from you, so all you have do is give 
 returns any "simple" attributes you may have passed it as the first element of its return tuple
 so you can spread those onto the element yourself.
 
-## Examples (for more, see [the tests](./src/useWebComponent.test.tsx))
+## Examples (for more, see [the tests](https://github.com/kaiyote/use-web-component/blob/master/src/useWebComponent.test.tsx))
 ### If your web component only uses simple properties, you don't need this hook
 ```jsx
 return <my-component string-attr='a string' boolean-attr number-attr={3}></my-component>
