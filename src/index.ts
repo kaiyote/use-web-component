@@ -9,7 +9,7 @@ type OnlyCustomProps<T> = Partial<Omit<T, keyof HTMLElement>>
 
 type Key<T> = keyof OnlyCustomProps<T>
 
-function isEventListener (key: string, x: any): x is EventListenerOrEventListenerObject {
+function isEventThingy (key: string, x: any): x is EventListenerOrEventListenerObject {
   return key.startsWith('on') && (
     (typeof x === 'object' && x.handleEvent != null) ||
     (typeof x === 'function' && x.length === 1)
@@ -45,7 +45,7 @@ export function useWebComponent<T extends HTMLElement> (
     for (const key in props) {
       const typedKey = key as Key<T>
       const value = props[typedKey]
-      if (isEventListener(key, value)) events.push({ key: mapping[key] ?? listenerPropNameToEvent(key, eventsAreCamelCase), value })
+      if (isEventThingy(key, value)) events.push({ key: mapping[key] ?? listenerPropNameToEvent(key, eventsAreCamelCase), value })
       else if (isComplexProp(value)) properties.push({ key: mapping[key] ?? key, value })
       else returnProps[typedKey] = value
     }
