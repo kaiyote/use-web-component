@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "prepublish": "tsc --project ./tsconfig.build.json",
+    "prepublishOnly": "tsc --project ./tsconfig.build.json",
     "build": "tsc --project ./tsconfig.build.json",
     "lint": "eslint ."
   },
@@ -14,7 +14,15 @@
     "type": "git",
     "url": "git+https://github.com/kaiyote/use-web-component.git"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "hook",
+    "web",
+    "component",
+    "custom",
+    "element",
+    "preact"
+  ],
   "author": {
     "email": "blazhen88@gmail.com",
     "name": "Tim Huddle",
