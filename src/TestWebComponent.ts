@@ -35,7 +35,6 @@ export default class TestWebComponent extends HTMLElement {
       <button data-testid='button' id='button'>Fire Event</button>
     </div>`
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.querySelector<HTMLElement>('#button')!.onclick = evt => {
       this.callback?.(textContent)
       this.dispatchEvent(new CustomEvent('button-clicked', {

@@ -1,8 +1,6 @@
 .github/
+coverage/
 .editorconfig
 .eslintrc
 .huskyrc
 .gitignore
-jest.config.js
-tsconfig.json
-tsconfig.build.json
