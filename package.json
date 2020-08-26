@@ -1,6 +1,6 @@
 {
   "name": "use-web-component",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A hook to abstract the more complicated wiring of web-components inside of react",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
