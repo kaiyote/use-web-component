@@ -1,6 +1,10 @@
 # use-web-component
 A hook to abstract the more complicated wiring of web-components inside of react
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Current Package Version](https://img.shields.io/npm/v/use-web-component.svg)](https://npmjs.org/package/use-web-component)
+[![Package Downloads](https://img.shields.io/npm/dm/use-web-component.svg)](https://npmjs.org/package/use-web-component)
+
 ## Installation
 `npm install use-web-component`
 
