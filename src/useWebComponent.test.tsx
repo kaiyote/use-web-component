@@ -1,8 +1,6 @@
-import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
 import React, { ReactElement, RefObject } from 'react'
 import { useWebComponent } from '.'
-import TestWebComponent from './TestWebComponent'
 
 let testRef: RefObject<TestComponentElement> = { current: null }
 
@@ -17,8 +15,6 @@ function WebComponentWithHook ({ camelEvents = false, propMappings, ...props }: 
 }
 
 describe('useWebComponent', () => {
-  beforeAll(() => { customElements.define('test-component', TestWebComponent) })
-
   beforeEach(() => { testRef = { current: null } })
 
   it('can pass your own attributes to the web-component without using the hook', async () => {
