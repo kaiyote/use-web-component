@@ -19,7 +19,7 @@
   patient.
 - ***PRs are welcome.*** If you have the knowledge / time to implement your
   feature, that'd be awesome. Open the PR and we'll discuss it. Just make sure you
-  adhere to the [code style](#code-style-linting).
+  adhere to the [code style](#code-style--linting).
 
 ## Code Style / Linting
 - We use [standardjs](https://standardjs.com/) and `Typescript`.
