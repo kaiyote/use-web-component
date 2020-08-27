@@ -37,7 +37,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",
     "@types/jest": "^26.0.10",
-    "@types/react": "^16.9.47",
+    "@types/react": "^16.9.48",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "eslint": "^7.7.0",
     "eslint-config-standard-with-typescript": "^18.0.2",

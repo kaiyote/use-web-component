@@ -3,8 +3,20 @@ name: Pull Request Test
 on:
   push:
     branches: [ master ]
+    paths:
+    - '**.js'
+    - '**.ts'
+    - '**.tsx'
+    - '**.json'
+    - '.eslintrc'
   pull_request:
     branches: [ master ]
+    paths:
+    - '**.js'
+    - '**.ts'
+    - '**.tsx'
+    - '**.json'
+    - '.eslintrc'
 
 jobs:
   build:
