@@ -5,5 +5,6 @@ module.exports = {
   coverageProvider: 'v8',
   errorOnDeprecated: true,
   testRunner: 'jest-circus/runner',
-  collectCoverageFrom: ['src/index.ts']
+  collectCoverageFrom: ['src/index.tsx', 'src/util.ts'],
+  setupFilesAfterEnv: ['./testSetup.ts']
 }

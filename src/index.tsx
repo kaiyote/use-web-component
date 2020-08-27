@@ -1,36 +1,12 @@
-import { createRef, RefObject, useLayoutEffect, useMemo } from 'react'
-
-interface PropItem<T> {
-  key: string,
-  value: T
-}
-
-type OnlyCustomProps<T> = Partial<Omit<T, keyof HTMLElement>>
-
-type Key<T> = keyof OnlyCustomProps<T>
-
-function isEventListener (key: string, x: any): x is EventListenerOrEventListenerObject {
-  return key.startsWith('on') && (
-    (typeof x === 'object' && x.handleEvent != null) ||
-    (typeof x === 'function' && x.length === 1)
-  )
-}
-
-function listenerPropNameToEvent (key: string, isCamel: boolean = false): string {
-  const eventName = key.replace('on', '')
-
-  if (isCamel) return eventName.replace(/^./, char => char.toLowerCase())
-  else {
-    return eventName
-      .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
-      .replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1-$2')
-      .toLowerCase()
-  }
-}
-
-function isComplexProp (x: any): boolean {
-  return typeof x !== 'string' && typeof x !== 'boolean' && typeof x !== 'number'
-}
+import React, {
+  createRef, ElementType, forwardRef, ForwardRefExoticComponent, PropsWithChildren,
+  PropsWithoutRef, RefAttributes, RefObject, useLayoutEffect, useMemo
+} from 'react'
+import mergeRefs from 'react-merge-refs'
+import {
+  isComplexProp, isComponentType, isEventListener, Key, listenerPropNameToEvent,
+  OnlyCustomProps, PropItem
+} from './util'
 
 export function useWebComponent<T extends HTMLElement> (
   props: OnlyCustomProps<T>, mapping: {[key: string]: string} = {}, eventsAreCamelCase: boolean = false
@@ -73,4 +49,18 @@ export function useWebComponent<T extends HTMLElement> (
   }, [probableEvents, probableProperties, ref])
 
   return [returnProps, ref]
+}
+
+export function withWebComponent (Component: ElementType<any>): ForwardRefExoticComponent<PropsWithoutRef<any> & RefAttributes<any>> {
+  const WebComponent = forwardRef(({ children, mapping = {}, eventsAreCamelCase = false, ...props }: PropsWithChildren<any>, ref) => {
+    const [simpleProps, innerRef] = useWebComponent(props, mapping, eventsAreCamelCase)
+
+    return <Component {...simpleProps} ref={mergeRefs([innerRef, ref])}>{children}</Component>
+  })
+
+  const displayName = isComponentType(Component) ? Component.displayName : Component
+
+  WebComponent.displayName = `WebComponent[${displayName ?? ''}]`
+
+  return WebComponent
 }
