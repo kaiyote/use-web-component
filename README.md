@@ -49,7 +49,8 @@ function App () {
   )
 }
 
-/* renders <my-component simple-attr='this passed through as an attribute'></my-component> with a listener bound to 'customEvent' and a property of 'complexProp' set to { value: 'this will be set as a property on the tag' } */
+/* renders <my-component simple-attr='this passed through as an attribute'></my-component> with a listener bound to 
+'customEvent' and a property of 'complexProp' set to { value: 'this will be set as a property on the tag' } */
 ```
 
 ## Hook
