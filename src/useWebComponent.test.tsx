@@ -4,12 +4,10 @@ import { useWebComponent } from '.'
 
 let testRef: RefObject<TestComponentElement> = { current: null }
 
-type Props = Omit<TestComponentElement, keyof HTMLElement>
-
-type HookTesterProps = Props & { camelEvents?: boolean, propMappings?: { [key: string]: string }, [key: string]: any }
+type HookTesterProps = TestComponentElementProps & { camelEvents?: boolean, propMappings?: { [key: string]: string }, [key: string]: any }
 
 function WebComponentWithHook ({ camelEvents = false, propMappings, ...props }: HookTesterProps): ReactElement {
-  const [simpleProps, ref] = useWebComponent(props, propMappings, camelEvents)
+  const [simpleProps, ref] = useWebComponent<TestComponentElement, TestComponentElementProps>(props, propMappings, camelEvents)
   testRef = ref
   return <test-component {...simpleProps} ref={ref} data-testid='component'></test-component>
 }

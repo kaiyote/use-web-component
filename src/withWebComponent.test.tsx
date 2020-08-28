@@ -2,15 +2,15 @@ import { fireEvent, render } from '@testing-library/react'
 import React, { ReactElement, RefObject, useRef, MouseEventHandler } from 'react'
 import { withWebComponent } from '.'
 
-const TestComponent = withWebComponent('test-component')
+const TestComponent = withWebComponent<TestComponentElement, TestComponentElementProps>('test-component')
 
 const RefWrapper = (props: any): ReactElement => {
-  const innerRef = useRef<any>(null)
+  const innerRef = useRef<TestComponentElement>(null)
   testRef = innerRef
   return <TestComponent {...props} ref={innerRef} />
 }
 
-let testRef: RefObject<any> = { current: null }
+let testRef: RefObject<TestComponentElement> = { current: null }
 
 describe('withWebComponent', () => {
   beforeEach(() => { testRef = { current: null } })

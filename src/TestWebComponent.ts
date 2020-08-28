@@ -1,16 +1,22 @@
 import 'react'
 
 declare global {
-  type DetailProps<T> = React.DetailedHTMLProps<React.HTMLAttributes<T>, T>
-  type CustomElementProps<T> = DetailProps<T> & Omit<T, keyof HTMLElement>
-  interface TestComponentElement extends HTMLElement {
+  type DetailProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'className'>
+
+  type CustomElementProps<T extends HTMLElement, P> = DetailProps<T> & P
+
+  interface TestComponentElementProps {
     'simple-attr'?: string,
-    callback?: (arg: string | null) => void
+    callback?: (arg: string | null) => void,
+    class?: string | null
   }
+
+  interface TestComponentElement extends HTMLElement, TestComponentElementProps { }
+
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
-      'test-component': CustomElementProps<TestComponentElement>
+      'test-component': CustomElementProps<TestComponentElement, TestComponentElementProps>
     }
   }
 }

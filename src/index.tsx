@@ -4,26 +4,33 @@ import React, {
 } from 'react'
 import mergeRefs from 'react-merge-refs'
 import {
-  isComplexProp, isComponentType, isEventListener, Key, listenerPropNameToEvent,
-  OnlyCustomProps, PropItem
+  isComplexProp, isComponentType, isEventListener, listenerPropNameToEvent
 } from './util'
 
-export function useWebComponent<T extends HTMLElement> (
-  props: OnlyCustomProps<T>, mapping: {[key: string]: string} = {}, eventsAreCamelCase: boolean = false
-): [OnlyCustomProps<T>, RefObject<T>] {
+export interface PropItem<T> {
+  key: string,
+  value: T
+}
+
+export type PropType<P> = P & { [key: string]: any }
+
+export type Mappings<P> = { [K in keyof PropType<P>]?: string }
+
+export function useWebComponent<T extends HTMLElement, P = {}> (
+  props: PropType<P>, mapping: Mappings<P> = {}, eventsAreCamelCase: boolean = false
+): [Partial<P>, RefObject<T>] {
   const ref = createRef<T>()
 
   const [probableEvents, probableProperties, returnProps] = useMemo(() => {
     const events: Array<PropItem<EventListenerOrEventListenerObject>> = []
     const properties: Array<PropItem<any>> = []
-    const returnProps: OnlyCustomProps<T> = {}
+    const returnProps: Partial<P> = {}
 
     for (const key in props) {
-      const typedKey = key as Key<T>
-      const value = props[typedKey]
+      const value = props[key]
       if (isEventListener(key, value)) events.push({ key: mapping[key] ?? listenerPropNameToEvent(key, eventsAreCamelCase), value })
       else if (isComplexProp(value)) properties.push({ key: mapping[key] ?? key, value })
-      else returnProps[typedKey] = value
+      else returnProps[key as keyof P] = value
     }
 
     return [events, properties, returnProps]
@@ -38,7 +45,7 @@ export function useWebComponent<T extends HTMLElement> (
     }
 
     for (const property of probableProperties) {
-      current[property.key as Key<T>] = property.value
+      current[property.key as keyof T] = property.value
     }
 
     return () => {
@@ -51,9 +58,16 @@ export function useWebComponent<T extends HTMLElement> (
   return [returnProps, ref]
 }
 
-export function withWebComponent (Component: ElementType<any>): ForwardRefExoticComponent<PropsWithoutRef<any> & RefAttributes<any>> {
-  const WebComponent = forwardRef(({ children, mapping = {}, eventsAreCamelCase = false, ...props }: PropsWithChildren<any>, ref) => {
-    const [simpleProps, innerRef] = useWebComponent(props, mapping, eventsAreCamelCase)
+type HookProps<P> = PropType<P> & {
+  mapping?: Mappings<P>,
+  eventsAreCamelCase?: boolean
+}
+
+type ChildHookProps<P> = PropsWithChildren<HookProps<P>>
+
+export function withWebComponent<T extends HTMLElement, P = {}> (Component: ElementType<any>): ForwardRefExoticComponent<PropsWithoutRef<HookProps<P>> & RefAttributes<T>> {
+  const WebComponent = forwardRef<T, HookProps<P>>(({ children, mapping = {}, eventsAreCamelCase = false, ...props }: ChildHookProps<P>, ref) => {
+    const [simpleProps, innerRef] = useWebComponent<T>(props, mapping, eventsAreCamelCase)
 
     return <Component {...simpleProps} ref={mergeRefs([innerRef, ref])}>{children}</Component>
   })

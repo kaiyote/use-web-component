@@ -1,14 +1,5 @@
 import { ComponentType } from 'react'
 
-export interface PropItem<T> {
-  key: string,
-  value: T
-}
-
-export type OnlyCustomProps<T> = Partial<Omit<T, keyof HTMLElement>>
-
-export type Key<T> = keyof OnlyCustomProps<T>
-
 export function isComponentType (x: any): x is ComponentType {
   return x.displayName !== undefined
 }
