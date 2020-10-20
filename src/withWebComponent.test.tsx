@@ -18,11 +18,18 @@ describe('withWebComponent', () => {
   it('can pass an html tag name and get a component out thatll pass through all the important standard html props', async () => {
     const FancyInput = withWebComponent('input')
 
+    // this throws an error cause react is not pleased w/ `class` showing up on a standard element
+    // you shouldn't be doing this in the first place tho, so ima just ignore it
+    const origError = console.error
+    console.error = jest.fn()
+
     const { findByTestId } = render(<FancyInput id='testId' className='testClass' data-testid='testTestId' />)
 
     const theInput = await findByTestId('testTestId')
     expect(theInput).toHaveAttribute('id', 'testId')
     expect(theInput).toHaveAttribute('class', 'testClass')
+
+    console.error = origError
   })
 
   it('will correctly wire all the things on an actual web component', async () => {
@@ -73,5 +80,13 @@ describe('withWebComponent', () => {
 
     expect(onButtonClicked.mock.calls[0][0].type).toBe('button-clicked')
     expect(onButtonClicked.mock.calls[0][0].detail).toStrictEqual({ attributeValue: 'ref test' })
+  })
+
+  it('will pass anything sent in on `className` to the `class` prop since react wont process className for you here', async () => {
+    const { findByTestId } = render(<TestComponent className='this should show' class='up on class' data-testid='testComponent' />)
+
+    const theElement = await findByTestId('testComponent')
+
+    expect(theElement).toHaveAttribute('class', 'this should show up on class')
   })
 })
