@@ -65,11 +65,16 @@ type HookProps<P> = PropType<P> & {
 
 type ChildHookProps<P> = PropsWithChildren<HookProps<P>>
 
+function genClassList (className?: string, classProp?: string): string {
+  return [className, classProp].filter(Boolean).join(' ')
+}
+
 export function withWebComponent<T extends HTMLElement, P = {}> (Component: ElementType<any>): ForwardRefExoticComponent<PropsWithoutRef<HookProps<P>> & RefAttributes<T>> {
   const WebComponent = forwardRef<T, HookProps<P>>(({ children, mapping = {}, eventsAreCamelCase = false, ...props }: ChildHookProps<P>, ref) => {
-    const [simpleProps, innerRef] = useWebComponent<T>(props, mapping, eventsAreCamelCase)
+    const { className, class: classProp, ...restProps } = props
+    const [simpleProps, innerRef] = useWebComponent<T>(restProps, mapping, eventsAreCamelCase)
 
-    return <Component {...simpleProps} ref={mergeRefs([innerRef, ref])}>{children}</Component>
+    return <Component {...simpleProps} class={genClassList(className, classProp)} ref={mergeRefs([innerRef, ref])}>{children}</Component>
   })
 
   const displayName = isComponentType(Component) ? Component.displayName : Component
